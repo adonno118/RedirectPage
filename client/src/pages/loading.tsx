@@ -16,7 +16,7 @@ export default function LoadingPage() {
 
     // 2초 후 외부 링크로 이동
     const timer = setTimeout(() => {
-      window.location.href = 'https://iryan.kr/t737dobv6b';
+      window.location.href = 'https://iryan.kr/t73308wsg1';
     }, 2000);
 
     return () => clearTimeout(timer);
