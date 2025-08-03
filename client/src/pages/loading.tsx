@@ -1,117 +1,56 @@
-import { useEffect, useState } from "react";
+import { useEffect } from 'react';
+import { useLocation } from 'wouter';
 
-export default function Loading() {
-  const [statusMessage, setStatusMessage] = useState("페이지를 준비하고 있습니다");
+export default function LoadingPage() {
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
-    // Initialize Google Analytics with the provided tracking code
-    const initGoogleAnalytics = () => {
-      // Add Google Analytics script
-      const script1 = document.createElement('script');
-      script1.async = true;
-      script1.src = 'https://www.googletagmanager.com/gtag/js?id=AW-10974107380';
-      document.head.appendChild(script1);
+    // Google Ads 전환 추적
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'conversion', {
+        'send_to': 'AW-10974107380',
+        'value': 1200000,
+        'currency': 'KRW'
+      });
+    }
 
-      // Initialize gtag
-      const script2 = document.createElement('script');
-      script2.textContent = `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'AW-10974107380');
-      `;
-      document.head.appendChild(script2);
-    };
-
-    // Initialize GA immediately
-    initGoogleAnalytics();
-
-    // Track initial conversion event after a short delay
-    const conversionTimer = setTimeout(() => {
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'conversion', {
-          'send_to': 'AW-10974107380',
-          'event_category': 'page_redirect',
-          'event_label': 'loading_complete'
-        });
-      }
-    }, 500);
-
-    // Update status messages during loading
-    const statusMessages = [
-      '페이지를 준비하고 있습니다',
-      '거의 완료되었습니다',
-      '이동 중입니다...'
-    ];
-
-    let messageIndex = 0;
-    const messageInterval = setInterval(() => {
-      messageIndex = (messageIndex + 1) % statusMessages.length;
-      setStatusMessage(statusMessages[messageIndex]);
-    }, 800);
-
-    // Redirect after 2 seconds
-    const redirectTimer = setTimeout(() => {
-      clearInterval(messageInterval);
-      
-      // Fire final conversion event before redirect
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'conversion', {
-          'send_to': 'AW-10974107380',
-          'event_category': 'page_redirect',
-          'event_label': 'redirect_initiated'
-        });
-      }
-      
-      // Small delay to ensure tracking fires
-      setTimeout(() => {
-        window.location.href = 'https://iryan.kr/t737dmq3fj';
-      }, 100);
+    // 2초 후 외부 링크로 이동
+    const timer = setTimeout(() => {
+      window.location.href = 'https://iryan.kr/t73308wsg1';
     }, 2000);
 
-    // Fallback redirect in case of any issues
-    const fallbackTimer = setTimeout(() => {
-      window.location.href = 'https://iryan.kr/t737dmq3fj';
-    }, 3000);
-
-    // Cleanup
-    return () => {
-      clearTimeout(conversionTimer);
-      clearInterval(messageInterval);
-      clearTimeout(redirectTimer);
-      clearTimeout(fallbackTimer);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-slate-50 font-inter">
-      <div className="text-center max-w-md w-full">
-        {/* Logo/Brand Area */}
-        <div className="mb-8 animate-fade-in">
-          <div className="w-16 h-16 mx-auto bg-blue-500 rounded-full flex items-center justify-center mb-4">
-            <div className="w-8 h-8 border-3 border-white border-t-transparent rounded-full animate-spin-slow"></div>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
+      <div className="text-center">
+        {/* 로딩 스피너 */}
+        <div className="relative mb-8">
+          <div className="w-20 h-20 border-4 border-gray-200 rounded-full animate-spin border-t-green-600 mx-auto"></div>
+          <div className="absolute inset-0 w-20 h-20 border-4 border-transparent rounded-full animate-pulse border-t-green-400 mx-auto"></div>
+        </div>
+
+        {/* 로딩 텍스트 */}
+        <div className="space-y-4">
+          <h2 className="text-2xl font-bold text-gray-800 animate-pulse">
+            결제 페이지로 이동 중...
+          </h2>
+          <p className="text-gray-600">
+            잠시만 기다려주세요
+          </p>
+
+          {/* 진행률 바 */}
+          <div className="w-64 bg-gray-200 rounded-full h-2 mx-auto">
+            <div className="bg-green-600 h-2 rounded-full animate-loading-bar"></div>
           </div>
-          <h1 className="text-2xl font-semibold text-slate-800 mb-2">Loading</h1>
-          <p className="text-slate-600 text-sm">잠시만 기다려주세요...</p>
         </div>
-        
-        {/* Progress Bar */}
-        <div className="mb-6 animate-fade-in animation-delay-300">
-          <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-            <div className="h-full bg-blue-500 rounded-full animate-progress"></div>
-          </div>
-        </div>
-        
-        {/* Loading Dots */}
-        <div className="flex justify-center space-x-1 animate-fade-in animation-delay-600">
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-slow"></div>
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-slow animation-delay-200"></div>
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-slow animation-delay-400"></div>
-        </div>
-        
-        {/* Status Text */}
-        <div className="mt-8 animate-fade-in animation-delay-900">
-          <p className="text-xs text-slate-500">{statusMessage}</p>
+
+        {/* 구매 정보 */}
+        <div className="mt-8 bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
+          <div className="text-sm text-gray-500 mb-2">구매하실 상품</div>
+          <div className="font-bold text-lg text-gray-800">공동구매 실전 비법서</div>
+          <div className="text-2xl font-bold text-green-600 mt-2">₩1,200,000</div>
         </div>
       </div>
     </div>
