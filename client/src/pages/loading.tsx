@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function Loading() {
   const [statusMessage, setStatusMessage] = useState("페이지를 준비하고 있습니다");
+  const [isLoadingComplete, setIsLoadingComplete] = useState(false);
 
   useEffect(() => {
     // Initialize Google Analytics with the provided tracking code
@@ -50,38 +51,45 @@ export default function Loading() {
       setStatusMessage(statusMessages[messageIndex]);
     }, 800);
 
-    // Redirect after 2 seconds
-    const redirectTimer = setTimeout(() => {
+    // Complete loading after 2 seconds
+    const loadingTimer = setTimeout(() => {
       clearInterval(messageInterval);
+      setStatusMessage("준비 완료!");
+      setIsLoadingComplete(true);
       
-      // Fire final conversion event before redirect
+      // Fire conversion event when loading completes
       if (typeof window !== 'undefined' && (window as any).gtag) {
         (window as any).gtag('event', 'conversion', {
           'send_to': 'AW-10974107380',
-          'event_category': 'page_redirect',
-          'event_label': 'redirect_initiated'
+          'event_category': 'page_loaded',
+          'event_label': 'loading_complete'
         });
       }
-      
-      // Small delay to ensure tracking fires
-      setTimeout(() => {
-        window.location.href = 'https://iryan.kr/t737dmq3fj';
-      }, 100);
     }, 2000);
-
-    // Fallback redirect in case of any issues
-    const fallbackTimer = setTimeout(() => {
-      window.location.href = 'https://iryan.kr/t737dmq3fj';
-    }, 3000);
 
     // Cleanup
     return () => {
       clearTimeout(conversionTimer);
       clearInterval(messageInterval);
-      clearTimeout(redirectTimer);
-      clearTimeout(fallbackTimer);
+      clearTimeout(loadingTimer);
     };
   }, []);
+
+  const handleFreeTrialClick = () => {
+    // Fire conversion event on button click
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'conversion', {
+        'send_to': 'AW-10974107380',
+        'event_category': 'button_click',
+        'event_label': 'free_trial_button'
+      });
+    }
+    
+    // Small delay to ensure tracking fires before redirect
+    setTimeout(() => {
+      window.location.href = 'https://iryan.kr/t737dmq3fj';
+    }, 100);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-slate-50 font-inter">
@@ -89,30 +97,56 @@ export default function Loading() {
         {/* Logo/Brand Area */}
         <div className="mb-8 animate-fade-in">
           <div className="w-16 h-16 mx-auto bg-blue-500 rounded-full flex items-center justify-center mb-4">
-            <div className="w-8 h-8 border-3 border-white border-t-transparent rounded-full animate-spin-slow"></div>
+            {isLoadingComplete ? (
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"></path>
+              </svg>
+            ) : (
+              <div className="w-8 h-8 border-3 border-white border-t-transparent rounded-full animate-spin-slow"></div>
+            )}
           </div>
-          <h1 className="text-2xl font-semibold text-slate-800 mb-2">Loading</h1>
-          <p className="text-slate-600 text-sm">잠시만 기다려주세요...</p>
+          <h1 className="text-2xl font-semibold text-slate-800 mb-2">
+            {isLoadingComplete ? "준비 완료!" : "Loading"}
+          </h1>
+          <p className="text-slate-600 text-sm">
+            {isLoadingComplete ? "이제 무료 체험을 시작하세요!" : "잠시만 기다려주세요..."}
+          </p>
         </div>
         
         {/* Progress Bar */}
-        <div className="mb-6 animate-fade-in animation-delay-300">
-          <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-            <div className="h-full bg-blue-500 rounded-full animate-progress"></div>
+        {!isLoadingComplete && (
+          <div className="mb-6 animate-fade-in animation-delay-300">
+            <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+              <div className="h-full bg-blue-500 rounded-full animate-progress"></div>
+            </div>
           </div>
-        </div>
+        )}
         
         {/* Loading Dots */}
-        <div className="flex justify-center space-x-1 animate-fade-in animation-delay-600">
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-slow"></div>
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-slow animation-delay-200"></div>
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-slow animation-delay-400"></div>
-        </div>
+        {!isLoadingComplete && (
+          <div className="flex justify-center space-x-1 animate-fade-in animation-delay-600">
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-slow"></div>
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-slow animation-delay-200"></div>
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-slow animation-delay-400"></div>
+          </div>
+        )}
         
         {/* Status Text */}
         <div className="mt-8 animate-fade-in animation-delay-900">
           <p className="text-xs text-slate-500">{statusMessage}</p>
         </div>
+        
+        {/* Free Trial Button */}
+        {isLoadingComplete && (
+          <div className="mt-8 animate-fade-in">
+            <button
+              onClick={handleFreeTrialClick}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg"
+            >
+              무료 체험하기
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
