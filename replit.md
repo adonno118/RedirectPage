@@ -1,6 +1,6 @@
 # Overview
 
-This is a modern full-stack web application built with React frontend and Express.js backend. The project uses a monorepo structure with shared schema definitions between client and server. It features a clean, modern UI built with shadcn/ui components and Tailwind CSS, with PostgreSQL database integration via Drizzle ORM. The application is currently in a minimal state with basic routing and a loading page that includes Google Analytics integration.
+This is a landing page application that displays a 2-second loading animation before showing a "무료 체험하기" (Free Trial) button. When clicked, the button redirects users to https://iryan.kr/t737dmq3fj. The application includes Google Analytics conversion tracking for both loading completion and button clicks. Built with React frontend and Express.js backend using modern tooling including Vite, Tailwind CSS, and TypeScript.
 
 # User Preferences
 
