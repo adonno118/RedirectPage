@@ -34,7 +34,7 @@ export default function LoadingPage() {
         {/* 로딩 텍스트 */}
         <div className="space-y-4">
           <h2 className="text-2xl font-bold text-gray-800 animate-pulse">
-            결제 페이지로 이동 중...
+            무료체험하러 가는 중...
           </h2>
           <p className="text-gray-600">
             잠시만 기다려주세요
@@ -48,9 +48,9 @@ export default function LoadingPage() {
 
         {/* 구매 정보 */}
         <div className="mt-8 bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
-          <div className="text-sm text-gray-500 mb-2">구매하실 상품</div>
-          <div className="font-bold text-lg text-gray-800">초등교육 1</div>
-          <div className="text-2xl font-bold text-green-600 mt-2">₩1,200,000</div>
+          <div className="text-sm text-gray-500 mb-2">초등온라인학습 1위</div>
+          <div className="font-bold text-lg text-gray-800">엘리하이</div>
+          <div className="text-2xl font-bold text-green-600 mt-2">무료 체험</div>
         </div>
       </div>
     </div>
