@@ -16,7 +16,7 @@ export default function LoadingPage() {
 
     // 2초 후 외부 링크로 이동
     const timer = setTimeout(() => {
-      window.location.href = 'https://iryan.kr/t73308wsg1';
+      window.location.href = 'https://iryan.kr/t737dmq3fj';
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -49,7 +49,7 @@ export default function LoadingPage() {
         {/* 구매 정보 */}
         <div className="mt-8 bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
           <div className="text-sm text-gray-500 mb-2">구매하실 상품</div>
-          <div className="font-bold text-lg text-gray-800">공동구매 실전 비법서</div>
+          <div className="font-bold text-lg text-gray-800">초등교육 1</div>
           <div className="text-2xl font-bold text-green-600 mt-2">₩1,200,000</div>
         </div>
       </div>
