@@ -1,22 +1,22 @@
-import { useEffect } from 'react';
-import { useLocation } from 'wouter';
+import { useEffect } from "react";
+import { useLocation } from "wouter";
 
 export default function LoadingPage() {
   const [, setLocation] = useLocation();
 
   useEffect(() => {
     // Google Ads 전환 추적
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'conversion', {
-        'send_to': 'AW-10974107380',
-        'value': 1200000,
-        'currency': 'KRW'
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", "conversion", {
+        send_to: "AW-10974107380",
+        value: 1200000,
+        currency: "KRW",
       });
     }
 
     // 2초 후 외부 링크로 이동
     const timer = setTimeout(() => {
-      window.location.href = 'https://iryan.kr/t737dovtrn';
+      window.location.href = "https://iryan.kr/t737dmq3fj";
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -36,9 +36,7 @@ export default function LoadingPage() {
           <h2 className="text-2xl font-bold text-gray-800 animate-pulse">
             무료체험하러 가는 중...
           </h2>
-          <p className="text-gray-600">
-            잠시만 기다려주세요
-          </p>
+          <p className="text-gray-600">잠시만 기다려주세요</p>
 
           {/* 진행률 바 */}
           <div className="w-64 bg-gray-200 rounded-full h-2 mx-auto">
@@ -50,7 +48,9 @@ export default function LoadingPage() {
         <div className="mt-8 bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
           <div className="text-sm text-gray-500 mb-2">초등온라인학습 1위</div>
           <div className="font-bold text-lg text-gray-800">엘리하이</div>
-          <div className="text-2xl font-bold text-green-600 mt-2">무료 체험</div>
+          <div className="text-2xl font-bold text-green-600 mt-2">
+            무료 체험
+          </div>
         </div>
       </div>
     </div>
